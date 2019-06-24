@@ -9,6 +9,7 @@ synth:
 	vivado -mode batch -source synth.tcl
 	rm -f synth/TempSensorCtl.vhd.orig
 	rm -f synth/TempSensorCtl.vhd.rej
+	rm thermometer.bit synth/thermometer.bit
 
 sim:
 	vivado -mode batch -source sim.tcl
@@ -26,3 +27,4 @@ cleansynth:
 	rm -f *.jou
 	rm -f *.log
 	rm -f thermometer.bit
+	rm -f ./synth/thermometer.bit
