@@ -48,6 +48,11 @@ In order to execute the Makefile and its targets on Windows, it is recommended t
 Although untested, it should be working on a Linux distribution too.
 Vivado is available for Linux. Make sure that you have git, wget and make installed.
 
+The simulation scripts also use Vivado instead of ghdl and gtkwave.
+(Windows gdhl threw a memory error while simulating a design)
+It is possible to run gtkwave with the vcd files that Vivado generates.
+However, Vivado opens its own wave diagram gui.
+
 ## USAGE
 
 For information about the usage of the core, please refer to the documentation in the doc/ sub-directory.

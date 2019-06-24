@@ -9,7 +9,7 @@ synth:
 	vivado -mode batch -source synth.tcl
 	rm -f synth/TempSensorCtl.vhd.orig
 	rm -f synth/TempSensorCtl.vhd.rej
-	rm thermometer.bit synth/thermometer.bit
+	mv thermometer.bit synth/thermometer.bit
 
 sim:
 	#ghdl -s src/AmbaDemux4.vhd src/ambaMaster.vhd src/ambaSlave.vhd sim/amba_tb.vhd
