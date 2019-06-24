@@ -10,40 +10,28 @@ architecture beh of mavg_tb is
 
     signal testclk : std_logic;
     signal testsclk : std_logic;
-    signal btnu : std_logic;
-    signal btnd : std_logic;
+    signal windowsize : std_logic_vector(1 downto 0);
     signal temp_in : std_logic_vector(15 downto 0);
     signal temp_out : std_logic_vector(15 downto 0);
 
     component moving_average is
         port (
-            Clk : 		in std_logic;  					 	-- clock
-            Sample_Clk :	in std_logic;					-- sampling clock
-            State_up :	in std_logic;     					-- moving average state up
-            State_down :	in std_logic;     				-- moving average state down
-            Temp : 		in std_logic_vector(15 downto 0);	-- Temperature Input
-            Average_Temp : out std_logic_vector(15 downto 0)-- average temperature for output
+            Sample_Clk    :   in std_logic;                       -- sampling clock		
+            Temp          :   in std_logic_vector(15 downto 0);	  -- Temperature Input
+            Average_Temp  :   out std_logic_vector(15 downto 0);  -- average temperature for output
+            state         :   in std_logic_vector(1 downto 0)    
         );
     end component;
 begin
 
     uut : moving_average
     port map(
-        Clk => testclk,
         Sample_Clk => testsclk,
-        State_up => btnu,
-        State_down => btnd,
         Temp => temp_in,
-        Average_Temp => temp_out
+        Average_Temp => temp_out,
+        state => windowsize
     );
 
-    clkgen : process
-    begin
-		testclk <= '0';
-		wait for clk_period/2;
-		testclk <= '1';
-		wait for clk_period/2;
-	end process;
 	
 	smpclkgen : process
     begin
@@ -56,33 +44,25 @@ begin
 	inputproc : process
 	begin
         temp_in <= (others => '0');
-        btnu <= '1'; -- high active buttons
-        btnd <= '1';
+        windowsize <= (others => '0');
         wait for sclk_period;
         temp_in <= x"0001";
         wait for sclk_period;
         temp_in <= x"0002";
         wait for sclk_period;
+        windowsize <= "01";
         temp_in <= x"0008";
         wait for sclk_period;
-        btnu <= '0';
         temp_in <= x"0004";
         wait for sclk_period;
-        btnu <= '1';
-        wait for 3 * sclk_period;
         temp_in <= x"000A";
-        btnu <= '0';
+        windowsize <= "10";
         wait for sclk_period;
-        btnu <= '1';
-        wait for 3 * sclk_period;
         temp_in <= x"0001";
-        btnu <= '0';
+        windowsize <= "11";
         wait for sclk_period;
-        btnu <= '1';
 		wait for 5 * sclk_period;
         temp_in <= x"FF9C";
-        btnd <= '0';
-		--assert false report "Successfully finished simulation" severity failure;
 		wait;
 	end process;
 
