@@ -59,8 +59,8 @@ To build targets use the following make commands:
 4. sim: Simulate the amba testbench
 5. simmavg: Simulate the moving average testbench
 6. simparsing: Simulate the parsing testbench
-7. cleansynth: Delete all files that were generated suring synthetization
-8. cleansim: Delete all files that were generated suring simulation
+7. cleansynth: Delete all files that were generated during synthetization
+8. cleansim: Delete all files that were generated during simulation
 
 ## GENERICS
 In thermometer (toplevel):
@@ -76,5 +76,5 @@ In clkdivide:
 	temperature and different windowsizes are assigned in the simulation process. The expected values
 	for the averaged temperature are observed in the waveform.
 4. For the verification of the parsing module the parsing_tb testbench sets an input value of 100 (0x0064),
-	One LSB is equvalent to 0.0078 �C. The output of 007800 (which displays 00.7800 �C) verifies this parsing.
+	One LSB is equvalent to 0.0078 °C. The output of 007800 (which displays 00.7800 °C) verifies this parsing.
 5. The amba_tb simulates the top level design and verfies the communication between master and all slaves. 
