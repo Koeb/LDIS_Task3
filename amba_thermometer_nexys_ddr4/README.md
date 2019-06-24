@@ -58,3 +58,11 @@ To build targets use the following make commands:
 
 
 ## VERIFICATION
+1. A verification of the clockdivider was done with the clkdivide_tb testbench.
+2. A verification of the windowsize module was done with the windowsize_tb testbench.
+3. For the verification of the moving_average module the testbench mavg_tb was used. Different values for
+	temperature and different windowsizes are assigned in the simulation process. The expected values
+	for the averaged temperature are observed in the waveform.
+4. For the verification of the parsing module the parsing_tb testbench sets an input value of 100 (0x0064),
+	One LSB is equvalent to 0.0078 °C. The output of 007800 (which displays 00.7800 °C) verifies this parsing.
+5. The amba_tb simulates the top level design and verfies the communication between master and all slaves. 
