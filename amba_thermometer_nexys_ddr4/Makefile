@@ -7,6 +7,8 @@ synth:
 	wget -O synth/TempSensorCtl.vhd https://raw.githubusercontent.com/Digilent/Nexys-4-DDR-OOB/master/src/hdl/TempSensorCtl.vhd
 	patch synth/TempSensorCtl.vhd -i synth/TempSensorCtl.patch
 	vivado -mode batch -source synth.tcl
+	rm -f synth/TempSensorCtl.vhd.orig
+	rm -f synth/TempSensorCtl.vhd.rej
 
 sim:
 	vivado -mode batch -source sim.tcl
