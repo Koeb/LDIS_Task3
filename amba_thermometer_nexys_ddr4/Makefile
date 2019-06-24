@@ -1,6 +1,6 @@
-all: synth sim
+all: synth
 
-.PHONY: synth sim
+.PHONY: synth sim simavg simparsing
 
 synth:
 	wget -O synth/TWICtl.vhd https://raw.githubusercontent.com/Digilent/Nexys-4-DDR-OOB/master/src/hdl/TWICtl.vhd
