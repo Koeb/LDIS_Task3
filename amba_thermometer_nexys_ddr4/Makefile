@@ -12,13 +12,35 @@ synth:
 	rm thermometer.bit synth/thermometer.bit
 
 sim:
-	vivado -mode batch -source sim.tcl
+	#ghdl -s src/AmbaDemux4.vhd src/ambaMaster.vhd src/ambaSlave.vhd sim/amba_tb.vhd
+	#ghdl -a src/AmbaDemux4.vhd src/ambaMaster.vhd src/ambaSlave.vhd sim/amba_tb.vhd
+	#ghdl -e amba_tb
+	#ghdl -r amba_tb --vcd=amba.vcd
+	# Show simulation result as wave form
+	#gtkwave amba.vcd &
+	#vivado -mode batch -source sim.tcl
+	#parse sources
+	xvhdl -nolog src/AmbaDemux4.vhd
+	xvhdl -nolog src/ambaMaster.vhd
+	xvhdl -nolog src/ambaSlave.vhd
+	xvhdl -nolog sim/amba_tb.vhd
+	#generate design snapshot
+	xelab -nolog -debug typical amba_tb -s top_amba_sim
+	#simulate design
+	xsim top_amba_sim -nolog -gui -t sim.tcl -wdb sim/top_amba_sim.wdb
 
 install:
 	vivado -mode batch -source prog.tcl
 
 cleansim:
-	rm -rf ./sim/build/ 
+	rm -f sim/top_amba_sim.wdb
+	rm -f *.pb
+	rm -f sim/amba_sim.wdb
+	rm -f sim/amba_sim.vcd
+	rm -rf xsim.dir/
+	rm -f *.jou
+	rm -f *.log
+	rm -rf .Xil
 
 cleansynth:
 	rm -rf ./synth/build/
@@ -28,3 +50,4 @@ cleansynth:
 	rm -f *.log
 	rm -f thermometer.bit
 	rm -f ./synth/thermometer.bit
+	rm -rf .Xil

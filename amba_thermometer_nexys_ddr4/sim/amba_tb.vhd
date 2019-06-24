@@ -91,7 +91,6 @@ architecture Behavioral of amba_tb is
             PWDATA  : out std_logic_vector(31 downto 0);
             PREADY  : in std_logic;
             PRDATA  : in std_logic_vector(31 downto 0);
-            --PSLVERR : in std_logic;
             
             transferRequest : in std_logic;
             ready           : out std_logic;
@@ -149,9 +148,6 @@ begin
 	end process;
 	
 	uut_m : ambaMaster
-    --generic map(
-    --    DIVISOR => 10
-    --)
     port map(
         PCLK => amba_clk,
         PRESETn => PRESETn,
@@ -380,11 +376,7 @@ begin
         if slv_read_sensor = '1' then
             if PADDR = (31 downto 0 => '0') then
                 slv_data_sensor_in <= (31 downto temperature_2comp'length => '0') & temperature_2comp;
-            --else
-                --slv_data_sensor_in <= (others => 'Z');
             end if;
-        --else
-            --slv_data_sensor <= (others => 'Z');
         end if;
     end process;
     
@@ -392,8 +384,6 @@ begin
     
     input_R: process(slv_read_input, PADDR, windowstate_i) is
     begin
-        --slv_data_input <= (others => 'Z');
-    
         if slv_read_input = '1' then
             if PADDR = (31 downto 0 => '0') then
                 slv_data_input_in <= (31 downto 2 => '0') & windowstate_i;
@@ -419,17 +409,11 @@ begin
     
     dsp_R: process(slv_read_dsp, PADDR, temp_out)
     begin
-       -- if sampleclk'event and sampleclk = '1' then
             if slv_read_dsp = '1' then
                 if PADDR = (31 downto 0 => '0') then
                     slv_data_dsp_in <= (31 downto 16 => '0') & temp_out;
-                --else
-                --    slv_data_dsp <= (others => 'Z');
                 end if;       
-            --else 
-                --slv_data_dsp <= (others => 'Z');
             end if;
-       -- end if;
     
     end process;
     
@@ -447,71 +431,8 @@ begin
         end if;
     end process;
     
-    --slv_data_output <= (others => 'Z');
     slv_done_output <= '1';
     
     PREADY_S <= PREADY_output & PREADY_dsp & PREADY_input & PREADY_sensor;
     PSEL <= PSELoutput & PSELdsp & PSELinput & PSELsensor;
-    
---    sensorproc : process(PSELsensor, amba_clk, PWRITE)
---    begin
---        if amba_clk'event and amba_clk = '1' then
---            if PSELsensor = '1' then
---                if PENABLE = '1' then
---                    if PWRITE = '0' then
---                        PRDATA <= x"0000000F";
---                        PREADY <= '1';
---                    end if;
---                end if;
---            end if;
---        end if;
---    end process;	
-    
---    inputproc : process (PSELinput, amba_clk, PWRITE, PENABLE)
---    begin
---        if amba_clk'event and amba_clk = '1' then
---            if PSELinput = '1' then
---                if PENABLE = '1' then
---                    if PWRITE = '0' then
---                        PRDATA <= x"00000003";
---                        PREADY <= '1';
---                    end if;
---                end if;
---            end if;
---        end if;
---    end process;
-    
---    dspproc : process (PSELdsp, amba_clk, PWRITE, dsp_state)
---    begin
---        if amba_clk'event and amba_clk = '1' then
---            if PSELdsp = '1' then
---                if PENABLE = '1' then
---                    if PWRITE = '1' then
---                        dsp_temp <= PWDATA(15 downto 0);
---                        dsp_state <= PWDATA(17 downto 16);
---                        PREADY <= '1';
---                    elsif PWRITE = '0' then
---                        case(dsp_state) is
---                            when "00" => PRDATA <= (31 downto 16 => '0') & dsp_temp;
---                            when others => PRDATA <= (31 downto 16 => '0') & std_logic_vector(unsigned(dsp_temp) +1);
---                        end case;
---                        PREADY <= '1';
---                    end if;
---                end if;
---            end if;
---        end if;
---    end process;
-
---    outputproc : process(PSELoutput, amba_clk, PWRITE)
---    begin
---        if amba_clk'event and amba_clk = '1' then
---            if PSELoutput = '1' then
---                if PENABLE = '1' then
---                    if PWRITE = '1' then
---                        output_temp <= PWDATA(15 downto 0);
---                    end if;
---                end if;
---            end if;
---        end if;
---    end process;
 end Behavioral;
