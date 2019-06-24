@@ -1,7 +1,5 @@
-diff --git a/src/hdl/TempSensorCtl.vhd b/src/hdl/TempSensorCtl.vhd
-index d8f53bc..f0ed568 100644
---- a/src/hdl/TempSensorCtl.vhd
-+++ b/src/hdl/TempSensorCtl.vhd
+--- TempSensorCtl.vhd	2019-06-24 15:53:03.258076700 +0200
++++ TempSensorCtl.vhdl	2019-05-15 15:08:42.323532100 +0200
 @@ -2,6 +2,7 @@
  ----------------------------------------------------------------------------
  -- Author:  Elod Gyorgy
@@ -10,7 +8,7 @@ index d8f53bc..f0ed568 100644
  ----------------------------------------------------------------------------
  -- 
  -- Create Date:    15:26:37 02/17/2014 
-@@ -47,7 +48,7 @@ entity TempSensorCtl is
+@@ -47,7 +48,7 @@
  --		TMP_INT : in STD_LOGIC; -- Interrupt line from the ADT7420, not used in this project
  --		TMP_CT : in STD_LOGIC;  -- Critical Temperature interrupt line from ADT7420, not used in this project
  		
@@ -19,7 +17,7 @@ index d8f53bc..f0ed568 100644
  		RDY_O : out STD_LOGIC;	--'1' when there is a valid temperature reading on TEMP_O
  		ERR_O : out STD_LOGIC; --'1' if communication error
  		
-@@ -116,7 +117,7 @@ end component;
+@@ -116,7 +117,7 @@
     signal state, nstate : state_type; 
  
  	
@@ -28,7 +26,7 @@ index d8f53bc..f0ed568 100644
  	constant DATA_WIDTH : integer := 1 + 8 + 8; -- RD/WR bit + 1 byte register address + 1 byte data
  	constant ADDR_WIDTH : natural := natural(ceil(log(real(NO_OF_INIT_VECTORS), 2.0)));
  	
-@@ -124,7 +125,8 @@ end component;
+@@ -124,7 +125,8 @@
  	signal TempSensInitMap: TempSensInitMap_type := (
  		IRD & x"0B" & x"CB", -- Read ID R[0x0B]=0xCB
  		IWR & x"2F" & x"00", -- Reset R[0x2F]=don't care
@@ -38,7 +36,7 @@ index d8f53bc..f0ed568 100644
  		);	
  	
  	signal initWord: std_logic_vector (DATA_WIDTH-1 downto 0);
-@@ -151,7 +153,7 @@ begin
+@@ -151,7 +153,7 @@
  ----------------------------------------------------------------------------------
  -- Outputs
  ----------------------------------------------------------------------------------
@@ -47,16 +45,7 @@ index d8f53bc..f0ed568 100644
  
  RDY_O <= '1' when fReady else
  			'0';
-@@ -312,7 +314,7 @@ Inst_TWICtl : TWICtl
- 				twiStb <= '1';
- 				twiAddr(0) <= IRD;
- 			when stReadTempD2 => --this state reads the temperature LSB
--            twiStb <= '1';
-+                twiStb <= '1';
- 				twiAddr(0) <= IRD;
- 				
- 			when stError => --in case of an I2C error during temperature poll
-@@ -321,7 +323,7 @@ Inst_TWICtl : TWICtl
+@@ -321,7 +323,7 @@
  			
     end process;
   
@@ -65,11 +54,8 @@ index d8f53bc..f0ed568 100644
     begin
        --declare default state for nstate to avoid latches
        nstate <= state;  --default is to stay in current state
-@@ -393,5 +395,4 @@ Inst_TWICtl : TWICtl
-       end case;      
+@@ -394,4 +396,3 @@
     end process;
  
--end Behavioral;
+ end Behavioral;
 -
-+end Behavioral;
-\ No newline at end of file

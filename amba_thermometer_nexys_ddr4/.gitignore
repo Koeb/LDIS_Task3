@@ -2,5 +2,7 @@
 *.jou
 *.log
 thermometer.bit
+synth/TWICtl.vhd
+synth/TempSensorCtl.vhd
 synth/build/*
 sim/build/*
