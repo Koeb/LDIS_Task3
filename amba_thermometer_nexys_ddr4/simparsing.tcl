@@ -1,5 +1,5 @@
-open_vcd sim/amba_sim.vcd
+open_vcd sim/parsing_sim.vcd
 log_vcd [get_object *]
 add_wave [get_object *]
-run 100us
+run 2us
 close_vcd
