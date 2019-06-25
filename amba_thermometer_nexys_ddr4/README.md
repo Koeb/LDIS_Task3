@@ -1,4 +1,4 @@
-Copyright 2019 Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of Technology
+﻿Copyright 2019 Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of Technology
 
 
 # README-File of project amba_thermometer_nexys_ddr4
@@ -22,7 +22,7 @@ Copyright 2019 Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of T
 	please refer to the documentation in the doc/ sub-directory.
 
 4. Design Characterization for the Nexys 4 DDR board:
-	I)   Timing Analysis: Maximum data path delay: t = 5.994 ns.
+	I)   Timing Analysis: Maximum data path delay: t = 5.2 ns.
 	II)  Power Analysis: Average power consumption: P = 0.18 W.
 	III) Resource Consumption: Percentage of used slices: r = 6 %.
 	

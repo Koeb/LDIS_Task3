@@ -405,8 +405,8 @@
 %
 %----------------------------------------------------------------------------
 %
-
-\rhead{\copyright 2019, Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of Technology.}
+\fancyhead{}
+\rhead[]{\copyright 2019, Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of Technology.}
 
 \section{Introduction}
 
@@ -448,14 +448,14 @@ The \textit{ambaMaster} module operates through the four following states.
 The interface of the \textit{ambaMaster} module is shown in figure \ref{fig:ambaMaster}. The interface to the APB bus is according to the AMBA 3 ABP Protocol v1.0 Specification.\footnote{\url{https://static.docs.arm.com/ihi0024/b/AMBA3apb.pdf}} For information about the signals please read the descriptions in this specification. The interface for the communication with the top level design includes the following signals:
 
 \begin{enumerate}
-	\item{\textbf{data}} Is a bi-directional 32 bit vector for the communication between top level design und bus master. Please notice: If any changes affecting the data signal are applied, make sure to keep consistent with the tristate logic.
+	\item{\textbf{data}} Is a bi-directional 32 bit vector for the communication between top level design und bus master. 
 	\item{\textbf{slaveaddr}} A slave is addressed by asserting the respective place in the slave address vector.
-	\item{\textbf{regaddr}} Is euqivalent to PADDR and not used in this core. It would be only necessary to address registers, if the data exceeds the 32 bit width of the ABP bus.
+	\item{\textbf{regaddr}} Is equivalent to PADDR and not used in this core. It would be only necessary to address registers, if the data exceeds the 32 bit width of the ABP bus.
 	\item{\textbf{transferRequest}} Indicates if a transfer is requested.
 	\item{\textbf{write}} Indicates an write access if high and a read access if low.
 	\item{\textbf{ready}} Indicates if the master module is ready to start a new access if high.
 \end{enumerate}
-
+\textbf{Please notice:} If any changes affecting the data signal are applied, make sure to keep consistent with the tristate logic.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\textwidth]{ambaMaster}
@@ -467,13 +467,13 @@ The interface of the \textit{ambaMaster} module is shown in figure \ref{fig:amba
 The ambaSlave module generates its current state from the received signals. The interface of the \textit{ambaSlave} module is shown in figure \ref{fig:ambaSlave}.The interfaceto the APB bus is again according to the specification. The interface to the slave modules includes the following signals.
 \begin{enumerate}
 	\item{\textbf{data_in}} Is a 32 bit vector for the data to be read by the master. 
-	\item{\textbf{data_out}} Is a 32 bit vector for the data written by the master. Please notice: In contrast to the master module the communication for read/write between the slave module and their sub-components is seperated, i.e. an uni-directional bit vector is used for each operation.
-	\item{\textbf{addr}} Is euqivalent to PADDR and not used in this core. It would be only necessary to address registers, if the data exceeds the 32 bit width of the ABP bus.
+	\item{\textbf{data_out}} Is a 32 bit vector for the data written by the master.
+	\item{\textbf{addr}} Is equivalent to PADDR and not used in this core. It would be only necessary to address registers, if the data exceeds the 32 bit width of the ABP bus.
 	\item{\textbf{readreg}} Indicates a read access if high.
 	\item{\textbf{writereg}} Indicates a write access if high.
 	\item{\textbf{done}} Indicates if the slave finished its operations and a new transfer can be requested.
 \end{enumerate}
-
+\textbf{Please notice:} In contrast to the master module the communication for read/write between the slave module and their sub-components is seperated, i.e. an uni-directional bit vector is used for each operation.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\textwidth]{ambaSlave}
@@ -492,7 +492,7 @@ Thermometer is the top level entity and controls the bus master via a state mach
 	\item \textbf{MAVG:} The averaged temperature is read.
 	\item \textbf{OUTPUT:} The averaged temperature vector is written to the Output Module. This state is followed by the INPUT state.
 \end{enumerate}
-A state transition only occurs when the \textit{ready} flag is set by the bus master (Except for the IDLE state).\newline
+\textbf{Please notice:} A state transition only occurs when the \textit{ready} flag is set by the bus master (Except for the IDLE state).\newline
 
 \subsection{clkdivide}
 All clocks are generated in the thermometer module.
@@ -501,6 +501,7 @@ All clocks are generated in the thermometer module.
 	\item The display clock is set to 1\,kHz. (For a cycle of 8 digits, this gives a refresh frequency of 125\,Hz for each digit).
 	\item The sample rate is set to 250\,ms per default. This can be adjusted presynthesis according to table \ref{tab:sampling}
 \end{enumerate}
+
 
 \begin{table}[H]
 \begin{center}
@@ -547,7 +548,8 @@ The \textit{windowsize} module permits four different window sizes, i.e. 1\,x / 
 \section{DSPSlave}
 The \textit{DSPSlave} module reads from the master (bits 0-15: temperature data in 2's complement, bits 16-17: windowsize) ,processes it, and writes the averaged temperature back.
 \subsection{moving_average}
-The \textit{moving_average} module is averaging the temperature according to the window size. For each new writing access, the temperature registers are shifted and the new value is safed in \textit{temp_in_ex0}. To keep the 2's complement addition consistent the MSB is copied to three addtional bits. The division of the summed value is done by shifting. Please notice: Therefore only windowsizes of 2$^n$\,x sampling rates are feasable.
+The \textit{moving_average} module is averaging the temperature according to the window size. For each new writing access, the temperature registers are shifted and the new value is safed in \textit{temp_in_ex0}. To keep the 2's complement addition consistent the MSB is copied to three addtional bits. The division of the summed value is done by shifting.\\
+\textbf{Please notice:} Therefore only windowsizes of 2$^n$\,x sampling rates are feasable.
 
 
 
