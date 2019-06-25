@@ -23,8 +23,8 @@ Copyright 2019 Benedikt Morgenbesser, Philipp Lehninger @ Vienna University of T
 
 4. Design Characterization for the Nexys 4 DDR board:
 	I)   Timing Analysis: Maximum data path delay: t = 5.994 ns.
-	II)  Power Analysis: Average power consumption: P = 0.1 W.
-	III) Resource Consumption: Percentage of used slices: r = 1.6 %.
+	II)  Power Analysis: Average power consumption: P = 0.18 W.
+	III) Resource Consumption: Percentage of used slices: r = 6 %.
 	
 5. Directory
 	All sub-directories and their content are listet below.
@@ -45,17 +45,34 @@ In order to execute the Makefile and its targets on Windows, it is recommended t
 2. Add your local Vivado installation directory to the system path variable
 3. Add wget and make to your git-bash: https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058
 
+Although untested, it should be working on a Linux distribution too.
+Vivado is available for Linux. Make sure that you have git, wget and make installed.
+
+The simulation scripts also use Vivado instead of ghdl and gtkwave.
+(Windows gdhl threw a memory error while simulating a design)
+It is possible to run gtkwave with the vcd files that Vivado generates.
+However, Vivado opens its own wave diagram gui.
 
 ## USAGE
 
 For information about the usage of the core, please refer to the documentation in the doc/ sub-directory.
 
 To build targets use the following make commands:
-	1. 
-
+1. all: This is an alias for make synth
+2. synth: Synthesizes the source code and generates the bitstream
+3. install: Program the bitstream onto the nexys 4 ddr board, if connected.
+4. sim: Simulate the amba testbench
+5. simmavg: Simulate the moving average testbench
+6. simparsing: Simulate the parsing testbench
+7. cleansynth: Delete all files that were generated during synthetization
+8. cleansim: Delete all files that were generated during simulation
 
 ## GENERICS
+In thermometer (toplevel):
+1. SAMPLERATE: integer range 1 to 4 := 1 --1: 250ms, 2: 500ms, 4: 1s, do not use 3!
 
+In clkdivide:
+1. DIVISOR : natural := 272 --divide incoming clock signal by this divisor and get a slower clock signal as output.
 
 ## VERIFICATION
 1. A verification of the clockdivider was done with the clkdivide_tb testbench.
@@ -64,5 +81,5 @@ To build targets use the following make commands:
 	temperature and different windowsizes are assigned in the simulation process. The expected values
 	for the averaged temperature are observed in the waveform.
 4. For the verification of the parsing module the parsing_tb testbench sets an input value of 100 (0x0064),
-	One LSB is equvalent to 0.0078 °C. The output of 007800 (which displays 00.7800 °C) verifies this parsing.
+	One LSB is equvalent to 0.0078 Â°C. The output of 007800 (which displays 00.7800 Â°C) verifies this parsing.
 5. The amba_tb simulates the top level design and verfies the communication between master and all slaves. 

@@ -1,6 +1,6 @@
-all: synth sim
+all: synth
 
-.PHONY: synth sim
+.PHONY: synth sim simavg simparsing
 
 synth:
 	wget -O synth/TWICtl.vhd https://raw.githubusercontent.com/Digilent/Nexys-4-DDR-OOB/master/src/hdl/TWICtl.vhd
@@ -9,7 +9,7 @@ synth:
 	vivado -mode batch -source synth.tcl
 	rm -f synth/TempSensorCtl.vhd.orig
 	rm -f synth/TempSensorCtl.vhd.rej
-	rm thermometer.bit synth/thermometer.bit
+	mv thermometer.bit synth/thermometer.bit
 
 sim:
 	#ghdl -s src/AmbaDemux4.vhd src/ambaMaster.vhd src/ambaSlave.vhd sim/amba_tb.vhd
